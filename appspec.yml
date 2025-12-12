@@ -1,0 +1,32 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /appdir
+
+permissions:
+  - object: /appdir
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+    mode: 755
+    type:
+      - file
+      - directory
+
+hooks:
+  ApplicationStop:
+    - location: scripts/stop.sh
+      timeout: 300
+      runas: root
+
+  BeforeInstall:
+    - location: scripts/stop.sh
+      timeout: 300
+      runas: root
+
+  ApplicationStart:
+    - location: scripts/start.sh
+      timeout: 300
+      runas: root
